@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Full Backend Project for learning nodejs, express, mongoDB and all backend functionallity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javacript",
+    "node",
+    "js",
+    "backend"
+  ],
+  "author": "Meet Rakholiya",
+  "license": "ISC"
+}
