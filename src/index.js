@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8000;
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`server is listning on ${PORT}`);
+      console.log(`🎉 server is listning on ${PORT}`);
     });
   })
   .catch((err) => console.log("DB connection faild :", err));
