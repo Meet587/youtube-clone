@@ -9,8 +9,8 @@ import mongoose from "mongoose";
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
         const user = await User.findById(userId);
-        const accessToken = user.generateAccessToken();
-        const refreshToken = user.generateRefreshToken();
+        const accessToken = await user.generateAccessToken();
+        const refreshToken = await user.generateRefreshToken();
 
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
@@ -35,11 +35,11 @@ const registreUser = asyncHandler(async (req, res) => {
     // check for user creration
     // return res
 
-    const { userName, fullName, email, password } = req.body;
+    const { username, fullname, email, password } = req.body;
     // console.log("email", email);
 
     if (
-        [userName, fullName, email, password].some(
+        [username, fullname, email, password].some(
             (field) => field?.trim() === ""
         )
     ) {
@@ -47,7 +47,7 @@ const registreUser = asyncHandler(async (req, res) => {
     }
 
     const existedUser = await User.findOne({
-        $or: [{ userName }, { email }],
+        $or: [{ username }, { email }],
     });
 
     if (existedUser) {
@@ -79,12 +79,12 @@ const registreUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
-        fullName,
+        fullname: fullname,
         avatar: avatar.url,
         coverImage: coverImage?.url || "",
         email,
         password,
-        userName: userName.toLowerCase(),
+        username: username.toLowerCase(),
     });
 
     const createdUSer = await User.findById(user._id).select(
@@ -135,7 +135,6 @@ const loginUser = asyncHandler(async (req, res) => {
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
         user._id
     );
-    console.log(refreshToken);
 
     const loggedInUser = await User.findById(user._id).select(
         "-password -refreshToken"
@@ -167,7 +166,7 @@ const logOutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
         {
-            $set: { refreshToken: undefined },
+            $unset: { refreshToken: 1 },
         },
         { new: true }
     );
@@ -185,7 +184,7 @@ const logOutUser = asyncHandler(async (req, res) => {
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshTOken =
-        req.cookie.refreshToken || req.body.refreshToken;
+        req.cookie?.refreshToken || req.body?.refreshToken;
     if (!incomingRefreshTOken) {
         throw new ApiError(401, "Unauthorized request");
     }
