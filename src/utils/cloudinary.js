@@ -20,10 +20,21 @@ const uploadOnCloudinary = async (localFilePath) => {
         return response;
     } catch (error) {
         fs.unlinkSync(localFilePath); // remove the locally save temp file as the upload opration failed
-        return null;
+        throw error;
     }
 };
 
-const deleteImagefromCloudinary = async (localFilePath) => {};
+const deleteFromCloudinary = async (public_id, type) => {
+    try {
+        const deletedAssets = await cloudinary.uploader.destroy(public_id, {
+            resource_type: type,
+        });
 
-export { uploadOnCloudinary, deleteImagefromCloudinary };
+        return true;
+    } catch (error) {
+        console.log("error on deleting assets on cloudnery", error);
+        throw error;
+    }
+};
+
+export { uploadOnCloudinary, deleteFromCloudinary };
