@@ -9,7 +9,8 @@ import {
 
 const getAllVideos = asyncHandler(async (req, res) => {
     try {
-        const videos = await Video.find();
+        const userId = req.user._id;
+        const videos = await Video.find({ owner: userId });
 
         return res
             .status(200)
