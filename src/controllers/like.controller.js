@@ -20,13 +20,14 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
                 video: videoId,
                 likedBy: req.user._id,
             });
-            await like.save();
+            await newLike.save();
             return res.status(200).json({ message: "video liked.", newLike });
         }
     } catch (error) {
+        console.log("error while toggle your video like.", error);
         return res
             .status(500)
-            .json({ message: "error while toggle you video like." });
+            .json({ message: "error while toggle your video like." });
     }
 });
 
@@ -48,13 +49,14 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
                 comment: commentId,
                 likedBy: req.user._id,
             });
-            await like.save();
+            await newLike.save();
             return res.status(200).json({ message: "comment liked.", newLike });
         }
     } catch (error) {
+        console.log("error while toggle your comment like.", error);
         return res
             .status(500)
-            .json({ message: "error while toggle you comment like." });
+            .json({ message: "error while toggle your comment like." });
     }
 });
 
@@ -76,13 +78,14 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
                 tweet: tweetId,
                 likedBy: req.user._id,
             });
-            await like.save();
+            await newLike.save();
             return res.status(200).json({ message: "tweet liked.", newLike });
         }
     } catch (error) {
+        console.log("error while toggle your tweet like.", error);
         return res
             .status(500)
-            .json({ message: "error while toggle you tweet like." });
+            .json({ message: "error while toggle your tweet like." });
     }
 });
 

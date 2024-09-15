@@ -30,7 +30,7 @@ const addComment = asyncHandler(async (req, res) => {
         }
         const comment = new Comment({
             video: videoId,
-            comment: commentMessage,
+            content: commentMessage,
             owner: req.user._id,
         });
         await comment.save();
@@ -44,7 +44,7 @@ const addComment = asyncHandler(async (req, res) => {
 
 const deleteComment = asyncHandler(async (req, res) => {
     try {
-        const { commentId } = req.prams;
+        const { commentId } = req.params;
         if (!isValidObjectId(commentId)) {
             return res.status(400).json({ message: "invalid comment id." });
         }

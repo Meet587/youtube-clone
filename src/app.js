@@ -31,7 +31,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/video", videoRouter);
 app.use("/api/v1/tweet", tweetRouter);
 app.use("/api/v1/playlist", playlistRouter);
-app.use("/api/v1/link", likeRouter);
+app.use("/api/v1/like", likeRouter);
 app.use("/api/v1/comment", commentRouter);
 
 export { app };
